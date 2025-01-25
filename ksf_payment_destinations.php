@@ -5,9 +5,6 @@ for FrontAccounting 2.3.15 by kfraser
 Free software under GNU GPL
 ***********************************************/
 
-global $path_to_root;
-$path_to_root = '../../';
-
 $page_security = 'SA_ksf_payment_destinations';
 include( __DIR__ . "/../../includes/session.inc");
 add_access_extensions();

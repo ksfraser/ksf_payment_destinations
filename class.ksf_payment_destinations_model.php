@@ -4,9 +4,9 @@
  * If you change the list of properties below, ensure that you also modify
  * build_write_properties_array
  * */
-$path_to_ksfcommon = __DIR__ . '/../ksf_modules_common/';
+
 require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' ); 
-//global $path_to_ksfcommon;
+global $path_to_ksfcommon;
 require_once( $path_to_ksfcommon . '/class.table_interface.php' ); 
 require_once( $path_to_ksfcommon . '/class.generic_fa_interface.php' );
 require_once( 'ksf_payment_destinations.inc.php' );
