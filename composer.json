@@ -1,0 +1,18 @@
+{
+    "name": "ksfraser/ksf_payment_destinations",
+    "description": "Direct Invoice Payment Destinations for FrontAccounting",
+    "type": "library",
+    "license": "GPL-2.0",
+    "require": {"php": ">=7.3"},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5 || ^8.5",
+        "ksfraser/famock": "*",
+        "ksfraser/traits": "*",
+        "ksfraser/exceptions": "*",
+        "ksfraser/ksf_modules_common": "*"
+    },
+    "autoload": {"psr-4":{"ksfraser\\PaymentDestinations\\":"src/","ksfraser\\FrontAccounting\\PaymentDestinations\\":"src/"}},
+    "autoload-dev": {"psr-4":{"Tests\\":"Tests/"},"files":["vendor/ksfraser/famock/php/FAMock.php"]},
+    "minimum-stability":"dev",
+    "prefer-stable":true
+}

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="Tests/bootstrap.php" colors="true" verbose="true">
+    <testsuites><testsuite name="PD Tests"><directory>Tests/Unit</directory></testsuite></testsuites>
+    <filter><whitelist processUncoveredFilesFromWhitelist="true"><directory suffix=".php">src</directory></whitelist></filter>
+</phpunit>

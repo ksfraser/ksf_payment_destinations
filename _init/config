@@ -1,0 +1,15 @@
+Package: Payment_Destinations
+Version: 1.0.0
+Name: Direct Invoice Payment Destinations
+Description: A "cash" sale deposits an automatically generated
+ customer payment into the Cash account.  But what if you accept
+ Interac, Debit or Credit payments?  You had to create a "payment due in X days"
+ transaction and then manually generate a customer payment.
+ This module traps the selected payment type and generates the payment into
+ the associated GL.
+Author: Kevin Fraser <kevin@ksfraser.ca>
+Maintenance: Kevin Fraser <kevin@ksfraser.ca>
+Homepage: soho.ksfraser.ca
+Type: extension
+InstallPath: modules/ksf_payment_destinations
+Depends: ksf_modules_common

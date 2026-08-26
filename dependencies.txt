@@ -1,0 +1,15 @@
+class.fa_bank_accounts.php
+class.fa_payment_terms.php
+class.generic_fa_interface.php
+class.ksf_payment_destinations.php
+class.ksf_payment_destinations_model.php
+class.ksf_payment_destinations_view.php
+class.table_interface.php;
+includes/data_checks.inc");
+includes/session.inc");
+includes/ui.inc");
+includes/ui/ui_lists.inc
+ksf_modules_common/defines.inc.php
+ksf_payment_destinations.inc.php
+ksf_payment_destinations.inc.php
+
