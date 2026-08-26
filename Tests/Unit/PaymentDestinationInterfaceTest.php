@@ -8,7 +8,7 @@ use ksfraser\FrontAccounting\PaymentDestinations\Model\PaymentDestinationModel;
 /**
  * @BABOK Related: UT-PD-001-002-001-define-table.md
  */
-class PaymentDestinationModelTest extends \PHPUnit\Framework\TestCase
+class PaymentDestinationInterfaceTest extends \PHPUnit\Framework\TestCase
 {
     public function testInterfaceImplementation(): void
     {
