@@ -7,7 +7,7 @@ use ksfraser\PaymentDestinations\Traits\ValidatableTrait;
 class PaymentDestinationService implements PaymentDestinationServiceInterface
 {
     use ValidatableTrait;
-{
+
     protected PaymentDestinationRepositoryInterface $repo;
 
     public function __construct(PaymentDestinationRepositoryInterface $repo)
