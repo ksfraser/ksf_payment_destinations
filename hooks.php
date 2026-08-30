@@ -1,4 +1,3 @@
-
 <?php
 define ('SS_ksf_payment_destinations', 111<<8);
 	/**************NOTE**********************************
