@@ -34,7 +34,11 @@ class PaymentDestinationService implements PaymentDestinationServiceInterface
 
     public function resolveMappingName(array $data): array
     {
-        // Delegates to FA DTOs (fa_bank_accounts / fa_payment_terms)
         return $data;
+    }
+
+    public function createTable(): bool
+    {
+        return $this->repo->createTable();
     }
 }

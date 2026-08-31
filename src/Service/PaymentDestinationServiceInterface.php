@@ -9,4 +9,5 @@ interface PaymentDestinationServiceInterface
     public function getBankAccountFromTerm(int $term): int;
     public function addMapping(array $data): bool;
     public function resolveMappingName(array $data): array;
+    public function createTable(): bool;
 }
