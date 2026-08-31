@@ -27,56 +27,67 @@ class HooksPaymentDestinationsTest extends TestCase
         $this->hooks = new HooksPaymentDestinations($this->service);
     }
 
-    public function testGetModuleConstantsReturnsArray(): void
+    public function testKsfGetValueReturnsNullForUnknownKey(): void
     {
-        $result = $this->hooks->getModuleConstants();
+        $key = 'payment_destinations.unknown';
+        $result = $this->hooks->ksf_get_value($key);
+        $this->assertNull($result);
+    }
+
+    public function testKsfGetValuesReturnsSubset(): void
+    {
+        $keys = ['payment_destinations.routing'];
+        $result = $this->hooks->ksf_get_values($keys);
         $this->assertIsArray($result);
-        $this->assertArrayHasKey('PREFS', $result);
-        $this->assertSame('ksf_payment_destinations_prefs', $result['PREFS']);
     }
 
-    public function testGetModuleCapabilitiesReturnsRoutingAndMapping(): void
+    public function testKsfGetValuesWithEmptyKeysReturnsAll(): void
     {
-        $result = $this->hooks->getModuleCapabilities();
+        $result = $this->hooks->ksf_get_values();
         $this->assertIsArray($result);
-        $this->assertArrayHasKey('routing', $result);
-        $this->assertArrayHasKey('mapping', $result);
-        $this->assertTrue($result['routing']);
-        $this->assertTrue($result['mapping']);
+        $this->assertArrayHasKey('payment_destinations.routing', $result);
     }
 
-    public function testHasCapabilityReturnsTrueForExistingCap(): void
+    public function testKsfSetValueDoesNotThrow(): void
     {
-        $this->assertTrue($this->hooks->hasCapability('routing'));
-        $this->assertTrue($this->hooks->hasCapability('mapping'));
+        $data = ['key' => 'payment_destinations.routing', 'value' => []];
+        $this->hooks->ksf_set_value($data);
+        $this->assertTrue(true);
     }
 
-    public function testHasCapabilityReturnsFalseForNonexistentCap(): void
-    {
-        $this->assertFalse($this->hooks->hasCapability('nonexistent'));
-    }
-
-    public function testRespondToCapabilityRequestWithCartReturnsRoutingResult(): void
+    public function testGetRoutingForCartWithMissingTermReturnsNull(): void
     {
         $cart = new class {
-            public $payment_terms = ['terms_indicator' => 5];
+            public $payment_terms = [];
             public $pos = ['pos_account' => 1];
         };
-        $result = $this->hooks->respondToCapabilityRequest('routing', ['cart' => $cart]);
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('bank_account', $result);
-        $this->assertIsInt($result['bank_account']);
-    }
-
-    public function testRespondToCapabilityRequestWithoutCartReturnsNull(): void
-    {
-        $result = $this->hooks->respondToCapabilityRequest('routing', []);
+        $result = $this->hooks->getRoutingForCart($cart);
         $this->assertNull($result);
     }
 
-    public function testRespondToCapabilityRequestWithUnknownCapReturnsNull(): void
+    public function testGetRoutingForCartWithZeroTermReturnsNull(): void
     {
-        $result = $this->hooks->respondToCapabilityRequest('unknown_cap', ['cart' => null]);
+        $cart = new class {
+            public $payment_terms = ['terms_indicator' => 0];
+            public $pos = ['pos_account' => 1];
+        };
+        $result = $this->hooks->getRoutingForCart($cart);
         $this->assertNull($result);
+    }
+
+    public function testGetRoutingForCartWithNoMappingReturnsNull(): void
+    {
+        global $cart;
+        $cart = new class {
+            public $payment_terms = ['terms_indicator' => 9999];
+            public $pos = ['pos_account' => 1];
+        };
+        $result = $this->hooks->getRoutingForCart($cart);
+        $this->assertNull($result);
+    }
+
+    public function testHookInstanceHasServiceFromConstructor(): void
+    {
+        $this->assertSame($this->service, $this->hooks->getService());
     }
 }
