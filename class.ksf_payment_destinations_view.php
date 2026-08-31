@@ -74,6 +74,9 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 		$this->add_submodules();
 							
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationView.php (proposed displayUsageForm)
+	 */
 	function usage_form()
 	{
 		$this->title = "How to Use this Module";
@@ -103,32 +106,42 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 	 * Using FA routine display a combo box of bank accounts
 	 *
 	 * ***************************************************************/
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * FA UI helper — remains; wraps bank_accounts_list() from FA core ui_lists.inc
+	 */
 	function comboBankAccountList()
 	{
-		//require_once( $path_to_root . "/includes/ui/ui_lists.inc" );
 		echo "<td>" . bank_accounts_list("bank_account", null, false, false ) . "</td>";
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * FA UI helper — remains; wraps sale_payment_list() from FA core ui_lists.inc
+	 */
 	function comboPaymentList()
 	{
-		//require_once( $path_to_root . "/includes/ui/ui_lists.inc" );
 		echo "<td>" . sale_payment_list("payment_term", "", null, false) . "</td>";
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Post-submit callback — re-renders master_form after successful insert.
+	 */
 	function form_ksf_payment_destinations_completed()
-	{	//Need to add code here to do whatever this submodule is for...\
-		$this->master_form();
-	}
-	/**************************************************//**
-	 * Set the focus on the cart's displayed table 
-	 *
-	 * @returns NONE
-	 * ***************************************************/
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * AJAX focus management for the edit form div.
+	 */
 	function line_start_focus() 
 	{
 	  global $Ajax;
 	  $Ajax->activate('edit_form');
 	  set_focus('action');
 	}
-	/*html table header row*/function form_header()
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Builds table header array from $this->header_arr — driven by table_interface field definitions.
+	 */
+	function form_header()
 	{
 		$th = array();
 		$this->tabledef2headers();
@@ -139,6 +152,11 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 		table_header($th);
 		return $th;
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Renders the mapping table rows (read-only display with edit/delete buttons).
+	 * Uses $this->controller->model->getAll() — replaced by Repository::findAll().
+	 */
 	function form_item_rows()
 	{
 		if( isset( $this->controller ) )
@@ -176,6 +194,10 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 		}
 	
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Add-mappings form (payment term + bank account combo boxes + submit).
+	 */
 	function form_add( $action, $msg )
 	{
 		div_start( 'form_add' );
@@ -205,6 +227,10 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 		end_form();
 		div_end();
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Edit-existing-mapping form (pre-populated combo boxes).
+	 */
 	function edit_item_form( )
 	{
 		div_start( 'edit_form' );
@@ -231,6 +257,10 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 		$Ajax->activate('edit_form');
 		set_focus( 'Update' );
 	}
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
+	 * Renders the mapping table shell (heading + header row + form rows).
+	 */
 	function item_form()
 	{
 		display_heading("Payment Terms to Bank Account Map");
@@ -246,16 +276,10 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 	        end_form();
 		div_end();
 	}
-	/*********************************************************************************//**
-	 *master_form
-	 *	Display the summary of items with edit/delete
-	 *		
-	 *	assumes entry_array has been built (constructor)
-	 *	assumes table_details has been built (constructor)
-	 *	assumes selected_id has been set (constructor?)
-	 *	assumes iam has been set (constructor)
-	 *
-	 * ***********************************************************************************/
+	/**
+	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php::displayMasterForm()
+	 * Orchestrates item_form() + form_add() into the full "Setup Payment Destination Mapping" tab.
+	 */
 	function master_form()
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );

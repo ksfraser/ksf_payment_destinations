@@ -61,9 +61,16 @@ require_once( $path_to_ksfcommon . '/class.generic_fa_interface.php' );
  * ***************************************************************/
 
 
+/**
+ * Legacy FrontAccounting controller — superseded by:
+ *   src/Controller/PaymentDestinationController.php (PSR-4, DI)
+ *
+ * @BABOK Related: UC-PD-001-configure-destinations.md, UC-PD-002-add-payment-mapping.md
+ */
 class ksf_payment_destinations extends generic_fa_interface_controller {
 	var $id_ksf_payment_destinations;	//!< Index of table
 	var $table_interface;
+	/** @BABOK Related: src/Controller/PaymentDestinationController.php::__construct() */
 	function __construct( $prefs )
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
@@ -104,6 +111,7 @@ class ksf_payment_destinations extends generic_fa_interface_controller {
 		$_POST['func'] = 'handle_delete';
 	}
 
+	/** @BABOK Related: src/Controller/PaymentDestinationController.php::run() */
 	function run()
 	{
 		global $Ajax;
@@ -141,6 +149,7 @@ class ksf_payment_destinations extends generic_fa_interface_controller {
 		$this->install();
 		parent::action_show_form();
 	}
+	/** @BABOK Related: src/Controller/PaymentDestinationController.php (table creation delegated to Service) */
 	function install()
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );

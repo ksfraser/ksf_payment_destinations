@@ -74,6 +74,10 @@ class ksf_payment_destinations_model extends generic_fa_interface_model {
 		$this->table_interface = new table_interface();
 		$this->define_table();
 	}
+	/**
+	 * @BABOK Related: src/Service/PaymentDestinationService.php::getPaymentTerms()
+	 *   Replaced by Service layer using Repository; FA stubs via get_payment_terms() remain unchanged.
+	 */
 	function getPaymentTerms()
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
@@ -87,6 +91,11 @@ class ksf_payment_destinations_model extends generic_fa_interface_model {
 		return $terms_arr;
 
 	}
+	/**
+	 * @BABOK Related: src/Service/PaymentDestinationService.php::getBankAccountFromTerm()
+	 *   Replaced by Service + Repository + QueryBuilder chain.
+	 * Note: SQL bug — missing space before WHERE clause.
+	 */
 	function getBankAccountFromTerm()
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
@@ -97,6 +106,10 @@ class ksf_payment_destinations_model extends generic_fa_interface_model {
 		$this->mysql_query();
 		return $this->data['bank_account'];
 	}
+	/**
+	 * @BABOK Related: src/Repository/PaymentDestinationRepository.php::createTable()
+	 *   Table definition moved to Repository layer with QueryBuilder.
+	 */
 	function define_table()
 	{
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
@@ -108,6 +121,10 @@ class ksf_payment_destinations_model extends generic_fa_interface_model {
 		$this->table_interface->fields_array[] = array('name' => 'bank_account_name', 'label' => 'bank account name', 'type' => $descl, 'null' => 'NOT NULL',  'readwrite' => 'readwrite', 'default' => '0' );
 		$this->table_interface->table_details['primarykey'] = "payment_term";
 	}
+	/**
+	 * @BABOK Related: src/Service/PaymentDestinationService.php::addMapping()
+	 *   Replaced by Service (addMapping) + Repository (insert) + ValidatableTrait.
+	 */
 	function insert_data( $arr )
 	{
 		global $path_to_ksfcommon;
