@@ -15,16 +15,14 @@ class hooks_ksf_payment_destinations extends hooks {
      * @BABOK Related: UC-PD-001-configure-destinations.md, UC-PD-002-add-payment-mapping.md
      * ***********************************************************************************/
     function install_options($app) {
-        global $Ajax;
+        global $path_to_root;
+        $path = $path_to_root . '/modules/' . $this->module_name . '/ksf_payment_destinations.php';
         switch($app->id) {
             case 'GL':
-                $app->add_rapp_function(2, _('ksf_payment_destinations'),
-                     'modules/ksf_payment_destinations/ksf_payment_destinations.php', 'SA_ksf_payment_destinations');
-                $Ajax->addReplace($app->id, 'rsvr_function', 'rapp_function');
+                $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
             case 'orders':
-                $app->add_rapp_function(2, _('ksf_payment_destinations'),
-                     'modules/ksf_payment_destinations/ksf_payment_destinations.php', 'SA_ksf_payment_destinations');
+                $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
         }
     }
