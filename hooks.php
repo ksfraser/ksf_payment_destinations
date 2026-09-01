@@ -1,5 +1,6 @@
 <?php
 define ('SS_ksf_payment_destinations', 111<<8);
+define ('SA_ksf_payment_destinations', 111<<8);
 
 /**
  * Hooks adds menus and intercepts FA transactions.
@@ -35,7 +36,7 @@ class hooks_ksf_payment_destinations extends hooks {
     function install_access()
     {
         $security_sections[SS_ksf_payment_destinations] = _("ksf_payment_destinations");
-        $security_areas['SA_ksf_payment_destinations'] = array(SS_ksf_payment_destinations|101, _("ksf_payment_destinations"));
+        $security_areas['SA_ksf_payment_destinations'] = array(SS_ksf_payment_destinations|1, _("ksf_payment_destinations"));
         return array($security_areas, $security_sections);
     }
 
@@ -45,10 +46,12 @@ class hooks_ksf_payment_destinations extends hooks {
      * ***********************************************************************************/
     function activate_extension($company, $check_only=true)
     {
+	    /*
         if (file_exists(dirname(__FILE__) . '/sql/install.sql')) {
             $updates = array('install.sql' => array($this->module_name));
-            return $this->update_databases($company, $updates, $check_only);
-        }
+	    return $this->update_databases($company, $updates, $check_only);
+	}
+	     */
         return true;
     }
 
