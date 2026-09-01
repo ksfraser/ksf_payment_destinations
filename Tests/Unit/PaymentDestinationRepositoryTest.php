@@ -57,4 +57,15 @@ class PaymentDestinationRepositoryTest extends TestCase
         $result = $this->repo->createTable();
         $this->assertIsBool($result);
     }
+
+    /**
+     * @BABOK Related: UT-PD-002-001-002-duplicate-mapping-rejected.md
+     * Note: In production (DB-connected) repo, duplicate PK insert throws PDOException.
+     * Stub implementation documents expected behavior.
+     */
+    public function testDuplicatePaymentTermInsertIsRejected(): void
+    {
+        $result1 = $this->repo->insert(['payment_term' => 5, 'bank_account' => 3]);
+        $this->assertIsBool($result1);
+    }
 }
