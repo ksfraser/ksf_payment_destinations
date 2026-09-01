@@ -51,6 +51,23 @@ See: `src/Hooks/HooksPaymentDestinations.php`
 ## Traceability Rule
 When a function is rewritten/moved, the original file must retain a commented stub referencing new location and `@BABOK` ID.
 
+## Testing Rule (CRITICAL)
+**Any file that is touched MUST be tested.** This includes legacy FA module files (`class.ksf_payment_destinations*.php`, `hooks.php`, `ksf_payment_destinations.php`) which are NOT autoloaded by Composer and are NOT covered by the PHPUnit test suite's PSR-4 whitelist.
+
+### Required check before every commit
+```bash
+composer run test
+```
+This runs `lint` (php -l on every .php file) then `phpunit`. A parse error in any PHP file will cause `composer run test` to fail.
+
+### Why legacy files are not covered by unit tests
+PHPUnit only autoloads PSR-4 classes from `src/` via Composer's `autoload-dev`. Legacy FA module files are loaded at runtime by FA's module system, not by Composer's autoloader. PHPUnit never parses or includes these files — so a parse error in e.g. `class.ksf_payment_destinations_view.php` is invisible to the test suite unless explicitly lint-checked.
+
+### If you modify a legacy file
+1. Run `php -l <file>` on it immediately
+2. Run `composer run test` before committing
+3. If the file defines a class/method, add a corresponding unit test in `Tests/Unit/`
+
 ## FA Session and Cookie Handling
 FA uses rotating session IDs that change on every request. **Do not** reuse curl/phphttpclient handles across independent requests — each request must receive fresh cookies from the previous response.
 
