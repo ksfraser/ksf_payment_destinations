@@ -1,0 +1,18 @@
+--- a/AGENTS_ARCH.md
++++ b/AGENTS_ARCH.md
+@@ -139,9 +139,15 @@ A module must never gate class availability on another module's activation.
+ ## 12. FA module packaging
+
+ - `_init/config` file is **gzip-compressed** `Key: Value` lines (`Name:`, `Version:`,
+-  `Description:`), version like `2.4.3-<build>`.
++  `Description:`).
++- **Version format: `2.4.X-Y`** where `2.4` is the **major.minor of the host FA** (e.g.
++  FA 2.4.3 and FA 2.4.19 both use `FA-Version: 2.4`), `X` is the module patch level,
++  `Y` is the internal build number. **The `2.4` component MUST match the host FA version**
++  — FA checks `_init/config` for a compatible `FA-Version:` field and rejects mismatched modules.
++- **Required fields:** `Package:`, `Version:`, `Name:`, `Author:`, `Maintenance:`,
++  `Type: extension`, `InstallPath: modules/<module_name>`, `FA-Version: 2.4`,
++  `PHP-Version: 7.3` (or minimum supported PHP).
+ - `install.sql` schema: hardcoded `0_` prefix; do not use `@TB_PREF@`/`{TB_PREF}`;
+   probe existing tables with the bare table name.
+ - Cross-module/owned classes live in a Packagist package, not a module dir.

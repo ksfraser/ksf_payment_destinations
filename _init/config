@@ -1,5 +1,5 @@
-Package: Payment_Destinations
-Version: 1.0.0
+Package: ksf_payment_destinations
+Version: 2.4.3-1
 Name: Direct Invoice Payment Destinations
 Description: A "cash" sale deposits an automatically generated
  customer payment into the Cash account.  But what if you accept
@@ -13,3 +13,5 @@ Homepage: soho.ksfraser.ca
 Type: extension
 InstallPath: modules/ksf_payment_destinations
 Depends: ksf_modules_common
+FA-Version: 2.4
+PHP-Version: 7.3
