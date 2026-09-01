@@ -16,7 +16,8 @@ class hooks_ksf_payment_destinations extends hooks {
      * ***********************************************************************************/
     function install_options($app) {
         global $path_to_root;
-        $path = $path_to_root . '/modules/' . $this->module_name . '/ksf_payment_destinations.php';
+        $module_dir = basename(__DIR__);
+        $path = $path_to_root . '/modules/' . $module_dir . '/ksf_payment_destinations.php';
         switch($app->id) {
             case 'GL':
                 $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
