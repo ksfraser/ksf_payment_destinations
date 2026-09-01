@@ -26,8 +26,16 @@ See `ProjectDcs/Architecture.md`:
 Every class/method docblock must include `@BABOK Related:` referencing the file in `ProjectDcs/`.
 
 ## Composer Dependencies
-Any module using Composer packages must include `ComposerDependencies` from `ksf_FA_Common`:
+Any module using Composer packages must include `ComposerDependencies` from `ksf_FA_Common` **only if** you want automatic `composer install` on first load. Otherwise, run `composer install` manually before enabling the module.
 
+### Manual setup (recommended)
+```bash
+cd /path/to/modules/FA_PaymentDestinations
+composer install
+```
+No bootstrap code needed in `hooks.php` — the autoloader will be found via Composer's `vendor/autoload.php`.
+
+### Automatic setup (runs composer install on first FA access)
 ```php
 // In hooks.php before any namespaced class is used:
 $composerDepsPath = dirname(__DIR__) . '/ksf_FA_Common/src/Utils/ComposerDependencies.php';
@@ -36,9 +44,16 @@ if (file_exists($composerDepsPath)) {
     \ksfraser\FrontAccounting\Common\Utils\ComposerDependencies::ensure(__DIR__);
 }
 ```
+**Note:** `ComposerDependencies::ensure()` runs `composer install` which can be slow or fail in some container environments. Manual `composer install` is more predictable.
 
-This runs `composer install` if `vendor/autoload.php` is missing, then FA's normal autoloader takes over.
 **Required for:** `ksf_modules_common`, `ksf_traits` packages, all PSR-4 namespaced code.
+
+## Module path convention (CRITICAL)
+- Directory name: `FA_PaymentDestinations` (container: `/modules/FA_PaymentDestinations`)
+- `module_name` in hooks.php: `'ksf_payment_destinations'`
+- Entry point path in `add_rapp_function`: `'modules/ksf_payment_destinations/ksf_payment_destinations.php'`
+- FA resolves this via `$path_to_root . '/modules/' . $module_name . '/'`
+- `path_to_root` is `'../..'` from inside the module directory
 
 ## Inter-Module Communication (ksf_traits)
 `HooksPaymentDestinations` uses `Ksfraser\Traits\HookQueryProviderTrait` (`ksf_traits`) for standard inter-module queries:

@@ -2,19 +2,6 @@
 define ('SS_ksf_payment_destinations', 111<<8);
 
 /**
- * Bootstrap Composer autoloader + ComposerDependencies (ksf_FA_Common).
- * Runs composer install if vendor/autoload.php is missing.
- */
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-}
-$composerDepsPath = dirname(__DIR__) . '/ksf_FA_Common/src/Utils/ComposerDependencies.php';
-if (file_exists($composerDepsPath)) {
-    require_once $composerDepsPath;
-    \ksfraser\FrontAccounting\Common\Utils\ComposerDependencies::ensure(__DIR__);
-}
-
-/**
  * Hooks adds menus and intercepts FA transactions.
  * db_prewrite: routes invoice payments to mapped bank accounts.
  *
@@ -75,31 +62,37 @@ class hooks_ksf_payment_destinations extends hooks {
             return false;
         }
 
-        // -- NEW PSR-4 implementation (DI wired inline) --
-        $tableName = TB_PREF . 'ksf_payment_destinations';
-        $qb        = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-        $repo      = new \ksfraser\PaymentDestinations\Repository\PaymentDestinationRepository($qb, $tableName);
-        $service   = new \ksfraser\PaymentDestinations\Service\PaymentDestinationService($repo);
-
         $term = (int) ($cart->payment_terms['terms_indicator'] ?? 0);
         if ($term <= 0) {
             return true;
         }
 
-        $bankAccount = $service->getBankAccountFromTerm($term);
-        if ($bankAccount > 0) {
-            $cart->pos['pos_account'] = $bankAccount;
-            if (!($cart->payment_terms['cash_sale'] ?? false)) {
-                $cart->payment_terms['cash_sale'] = 1;
-            }
-        }
-        return true;
+        // -- PSR-4 implementation (requires vendor/autoload.php) --
+        $autoload = __DIR__ . '/vendor/autoload.php';
+        if (file_exists($autoload)) {
+            require_once $autoload;
 
-        // -- LEGACY implementation (commented — for reference, see docblock) --
-        /*
-        require_once 'class.ksf_payment_destinations_model.php';
+            $tableName = TB_PREF . 'ksf_payment_destinations';
+            $qb        = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
+            $repo      = new \ksfraser\PaymentDestinations\Repository\PaymentDestinationRepository($qb, $tableName);
+            $service   = new \ksfraser\PaymentDestinations\Service\PaymentDestinationService($repo);
+
+            $bankAccount = $service->getBankAccountFromTerm($term);
+            if ($bankAccount > 0) {
+                $cart->pos['pos_account'] = $bankAccount;
+                if (!($cart->payment_terms['cash_sale'] ?? false)) {
+                    $cart->payment_terms['cash_sale'] = 1;
+                }
+            }
+            return true;
+        }
+
+        // -- LEGACY implementation (no Composer required) --
+        if (!class_exists('ksf_payment_destinations_model', false)) {
+            require_once __DIR__ . '/class.ksf_payment_destinations_model.php';
+        }
         $pay = new ksf_payment_destinations_model(ksf_payment_destinations_PREFS, $this);
-        $pay->set_var("payment_term", $cart->payment_terms['terms_indicator']);
+        $pay->set_var("payment_term", $term);
         try {
             $pay->select_row();
             $cart->pos['pos_account'] = $pay->get("bank_account");
@@ -112,10 +105,9 @@ class hooks_ksf_payment_destinations extends hooks {
                 display_error(__METHOD__ . ':' . __LINE__ . ' ' . $e->getMessage());
             }
         }
-        if (!$cart->payment_terms['cash_sale']) {
+        if (!($cart->payment_terms['cash_sale'] ?? false)) {
             $cart->payment_terms['cash_sale'] = 1;
         }
         return true;
-        */
     }
 }
