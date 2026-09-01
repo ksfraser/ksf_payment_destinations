@@ -40,6 +40,19 @@ class hooks_ksf_payment_destinations extends hooks {
     }
 
     /***************************************************************************************//**
+     * Install database schema on module activation.
+     * @BABOK Related: FR-PD-001-002-table-definition.md
+     * ***********************************************************************************/
+    function activate_extension($company, $check_only=true)
+    {
+        if (file_exists(dirname(__FILE__) . '/sql/install.sql')) {
+            $updates = array('install.sql' => array($this->module_name));
+            return $this->update_databases($company, $updates, $check_only);
+        }
+        return true;
+    }
+
+    /***************************************************************************************//**
      * Intercept ST_SALESINVOICE, route payment to mapped bank account.
      *
      * NEW PSR-4 implementation:
