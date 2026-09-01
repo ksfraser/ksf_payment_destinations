@@ -47,7 +47,7 @@
 | BR | 4 | 4 | 0 |
 | FR | 17 | 16 | 1 (duplicate PK) |
 | UC | 3 | 2 | 1 (duplicate PK) |
-| UAT | 7 scenarios | 0 executed | 7 pending |
+| UAT | 15 scenarios (UAT-PD-001: 7, UAT-PD-002: 10) | 0 executed | 15 pending |
 | UT | 9 test files | 9 ✅ | 0 |
 | Regression | 6 cases | 6 ✅ | 0 |
 
@@ -75,14 +75,15 @@
 | `ValidatableTraitTest.php` | FR-PD-002-001 (validation) |
 | `LegacyVsRefactorComparisonTest.php` | BR-PD-001/002 (structural) |
 | `RegressionTest.php` | BR-PD-001, BR-PD-002 (logic regression) |
-| `UAT-PD-001-admin-add-mapping.md` | UC-PD-001, UC-PD-002, BR-PD-001, BR-PD-002 (browser/E2E) |
+| `UAT-PD-001-admin-add-mapping.md` | UC-PD-001, UC-PD-002, BR-PD-001, BR-PD-002 (browser/E2E — UI/mapping setup) |
+| `UAT-PD-002-invoice-gl-posting.md` | UC-PD-002, UC-PD-003, BR-PD-001, BR-PD-002 (browser/E2E — GL posting) |
 
 ---
 
 ## Outstanding Gaps
 
-1. **Duplicate payment_term PK enforcement** — no test verifies that inserting a second row for the same payment_term is rejected. Should add `UT-PD-002-001-002-duplicate-mapping-rejected.md`.
-2. **UAT browser tests not executed** — UAT-PD-001-A through G require manual or automated browser testing against localhost:8080. Not yet automated in CI.
+1. **Duplicate payment_term PK enforcement** — `UT-PD-002-001-002-duplicate-mapping-rejected.md` created; not yet executed against live DB.
+2. **UAT browser tests not executed** — UAT-PD-001-A through J require manual or automated browser testing against localhost:8080. Not yet automated in CI.
 3. **Edit form** — known bug FR-PD-001-001 has no regression test (bug is by design); no test covers the edit_item_form path.
 4. **ModuleConfig (ksf_modules_common) for Configuration tab** — FR-PD-001-001 Configuration tab uses inherited `show_config_form`; no test covers module config save/load cycle.
 
@@ -90,4 +91,4 @@
 
 ## Last Updated
 
-commit `4b45929` — Regression test added, UAT expanded, RTM created.
+commit `29debd0` — UAT-PD-002 (15 GL posting scenarios) added.
