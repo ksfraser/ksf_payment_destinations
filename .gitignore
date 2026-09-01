@@ -3,3 +3,8 @@
 .phpunit.result.cache/
 .idea/
 .vscode/
+/node_modules/
+/package-lock.json
+/package.json
+/debug_fa.js
+/run_uat.js
