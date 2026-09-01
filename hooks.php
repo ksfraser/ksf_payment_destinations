@@ -23,7 +23,7 @@ class hooks_ksf_payment_destinations extends hooks {
                 $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
             case 'orders':
-                $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
+                $app->add_lapp_function(0, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
         }
     }
