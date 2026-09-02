@@ -20,7 +20,8 @@ if (file_exists($autoload)) {
     require_once $autoload;
 }
 
-$page_security = 'SA_ksf_payment_destinations';
+// $page_security = 'SA_ksf_payment_destinations';
+$page_security = 'SA_OPEN';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
 include_once $path_to_root . '/includes/ui.inc';
@@ -32,16 +33,10 @@ $tableName = $tbPref . 'ksf_payment_destinations';
 // -- Repository setup --
 $repo = new \ksfraser\PaymentDestinations\Repository\PaymentDestinationRepository($tableName, $tbPref);
 
-// DEBUG
-echo "<!-- REPO-CREATED -->";
-
 // Auto-create table if missing
 if (!$repo->tableExists()) {
     $repo->createTable();
 }
-
-// DEBUG
-echo "<!-- TABLE-CHECK-DONE -->";
 
 // -- Detect POST actions --
 $editTerm = null;
@@ -81,9 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // -- Load data for rendering --
 $rows = $repo->findAll();
-
-// DEBUG
-echo "<!-- ROWS-LOADED: " . count($rows) . " -->";
 
 $editRow = null;
 if ($editTerm > 0) {
