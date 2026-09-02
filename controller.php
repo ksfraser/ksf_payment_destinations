@@ -25,6 +25,7 @@ if (file_exists($autoload)) {
 $page_security = 'SA_OPEN';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
+include_once $path_to_root . '/includes/ui.inc';
 
 // Resolve TB_PREF — may be literal '&TB_PREF&' when included outside FA context; default to '0_'
 $tbPref = defined('TB_PREF') ? str_replace('&TB_PREF&', '0_', TB_PREF) : '0_';
