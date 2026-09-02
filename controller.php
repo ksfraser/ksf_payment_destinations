@@ -21,7 +21,8 @@ if (file_exists($autoload)) {
     require_once $autoload;
 }
 
-$page_security = 'SA_ksf_payment_destinations';
+// $page_security = 'SA_ksf_payment_destinations';
+$page_security = 'SA_OPEN';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
 
