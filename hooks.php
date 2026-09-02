@@ -10,6 +10,71 @@ define ('SA_ksf_payment_destinations', 111<<8);
  */
 class hooks_ksf_payment_destinations extends hooks {
     var $module_name = 'ksf_payment_destinations';
+    var $version     = '2.4.3-1';
+
+    /**
+     * Standard inter-module communication — constants.
+     * @BABOK Related: FR-PD-004-001-inter-module-communication.md
+     */
+    public function getModuleConstants(&$data, $opts = null)
+    {
+        $constants = [
+            'KSF_PAYMENT_DESTINATIONS_MODULE' => $this->module_name,
+        ];
+        $data['constants'] = $constants;
+        return $constants;
+    }
+
+    /**
+     * Standard inter-module communication — capabilities.
+     * @BABOK Related: FR-PD-004-001-inter-module-communication.md
+     */
+    public function getModuleCapabilities(&$data, $opts = null)
+    {
+        $capabilities = [
+            'payment_redirect' => [
+                'description' => 'Redirect non-cash payments to per-type GL accounts via db_prewrite',
+                'methods'    => ['db_prewrite'],
+            ],
+        ];
+        $data['capabilities'] = $capabilities;
+        return $capabilities;
+    }
+
+    /**
+     * Standard inter-module communication — capability query.
+     * @BABOK Related: FR-PD-004-001-inter-module-communication.md
+     */
+    public function hasCapability(&$data, $opts = null)
+    {
+        $capability = $opts['capability'] ?? $data['capability'] ?? null;
+        if ($capability === null) {
+            $data['has_capability'] = false;
+            return false;
+        }
+        $has = in_array($capability, ['payment_redirect']);
+        $data['has_capability'] = $has;
+        return $has;
+    }
+
+    /**
+     * Standard inter-module communication — dispatch.
+     * @BABOK Related: FR-PD-004-001-inter-module-communication.md
+     */
+    public function respondToCapabilityRequest(&$data, $opts = null)
+    {
+        $request = $opts['request'] ?? $data['request'] ?? 'capabilities';
+        switch ($request) {
+            case 'capabilities':
+                return $this->getModuleCapabilities($data, $opts);
+            case 'constants':
+                return $this->getModuleConstants($data, $opts);
+            case (strpos($request, 'has:') === 0):
+                return $this->hasCapability($data, ['capability' => substr($request, 4)]);
+            default:
+                return null;
+        }
+    }
 
     /***************************************************************************************//**
      * Register menu items under GL and orders app.

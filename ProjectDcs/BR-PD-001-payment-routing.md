@@ -2,9 +2,18 @@
 
 ## Business Rule: Payment Routing to Destination Bank Account
 
-**Status:** Active  
-**Owner:** ksf_payment_destinations module  
+**Status:** Active
+**Owner:** ksf_payment_destinations module
 **Related Code:** `hooks.php:53-110` (db_prewrite), `class.ksf_payment_destinations_model.php:90-99` (getBankAccountFromTerm)
+
+## Stakeholders
+
+| Stakeholder | Role | Interest |
+|-------------|------|----------|
+| FA Administrator | Configures payment-to-GL mappings | Ensures correct routing for reconciliation |
+| Accountant / Bookkeeper | Posts invoices, reviews GL postings | Payments land in correct GL accounts |
+| Business Owner | Reviews financial reports | Accurate cash-basis reporting by payment type |
+| Square Integration (ksf_FA_Square) | Intercepts Square-Invoice terms | Avoids conflict with non-Square redirections |
 
 ## Description
 

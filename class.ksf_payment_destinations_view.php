@@ -127,6 +127,9 @@ class ksf_payment_destinations_view extends generic_fa_interface_view {
 	 * Post-submit callback — re-renders master_form after successful insert.
 	 */
 	function form_ksf_payment_destinations_completed()
+	{
+		$this->master_form();
+	}
 	/**
 	 * @BABOK Related: src/View/PaymentDestinationViewInterface.php
 	 * AJAX focus management for the edit form div.

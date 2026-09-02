@@ -13,6 +13,10 @@
 | **BR-PD-001** | Unmapped term must NOT modify cart | BR | `UT-PD-001-003-001`, `RegressionTest::testUnmappedTermBothPathsReturnZero`, `UAT-PD-001-C` | ✅ |
 | **BR-PD-002** | Non-cash mapped term must set cash_sale=1 | BR | `UT-PD-001-003-001`, `RegressionTest::testCartRoutingDecisionMatchesBetweenPaths`, `UAT-PD-001-E` | ✅ |
 | **BR-PD-002** | Already-cash term must not clobber cash_sale flag | BR | `RegressionTest::testAlreadyCashSaleNotOverwritten` | ✅ |
+| **BR-PD-003** | Do not handle square_invoice* payment terms | BR | Not yet tested | ❌ Gap |
+| **BR-PD-003** | Hook execution order: ksf_FA_Square fires first (alphabetical) | BR | Not yet tested | ❌ Gap |
+| **BR-PD-004** | ISU compares staged GL vs FA GL during match phase | BR | Not yet tested | ❌ Gap |
+| **BR-PD-004** | GL mismatch flagged as advisory warning in review UI | BR | Not yet tested | ❌ Gap |
 | **FR-PD-001-001** | UI: Mapping table displays payment_term + bank_account | FR | `UAT-PD-001-A` (Step 6) | ✅ |
 | **FR-PD-001-001** | UI: Add form with payment term + bank account combos | FR | `UAT-PD-001-A` (Steps 3-5) | ✅ |
 | **FR-PD-001-001** | UI: Edit button (known bug — does not load form) | FR | `UAT-PD-001-F` | ⚠️ Known bug |
@@ -44,7 +48,7 @@
 
 | Category | Total | Covered | Gaps |
 |---|---|---|---|
-| BR | 4 | 4 | 0 |
+| BR | 6 | 4 | 2 (BR-PD-003, BR-PD-004) |
 | FR | 17 | 16 | 1 (duplicate PK) |
 | UC | 3 | 2 | 1 (duplicate PK) |
 | UAT | 15 scenarios (UAT-PD-001: 7, UAT-PD-002: 10) | 0 executed | 15 pending |
