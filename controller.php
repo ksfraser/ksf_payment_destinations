@@ -130,7 +130,14 @@ if ($action === 'edit' && $id) {
 
 // Render via SummaryView (composes table + form components)
 echo "\n<!-- BEFORE SUMMARYVIEW -->\n";
-(new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow))->render();
+try {
+    $sv = new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow);
+    echo "\n<!-- SUMMARYVIEW INSTANTIATED -->\n";
+    $sv->render();
+    echo "\n<!-- SUMMARYVIEW RENDERED -->\n";
+} catch (Throwable $e) {
+    echo "\n<!-- SUMMARYVIEW ERROR: " . $e->getMessage() . " -->\n";
+}
 echo "\n<!-- AFTER SUMMARYVIEW -->\n";
 
 echo '</div>';
