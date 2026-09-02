@@ -117,8 +117,12 @@ $listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
 echo "\n<!-- BEFORE-DB-QUERY -->\n";
-$result = db_query($listQb->toSql(), 'load mappings');
-echo "\n<!-- AFTER-DB-QUERY -->\n";
+$result = @db_query($listQb->toSql(), 'load mappings');
+if (!$result) {
+    echo "\n<!-- DB-ERROR: " . db_error_msg() . " -->\n";
+} else {
+    echo "\n<!-- AFTER-DB-QUERY -->\n";
+}
 $rows = [];
 while ($row = db_fetch_assoc($result)) {
     $rows[] = $row;
