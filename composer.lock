@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e0cda19500b72ca76efb7f74330d75b",
+    "content-hash": "d518a3f5a444c0a0cc59a12ddd3bead7",
     "packages": [
+        {
+            "name": "ksfraser/ksf-common-db",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/ksf_common_db.git",
+                "reference": "a206c556b94880a52d6a24e7b29bcd9ac8888aef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/ksf_common_db/zipball/a206c556b94880a52d6a24e7b29bcd9ac8888aef",
+                "reference": "a206c556b94880a52d6a24e7b29bcd9ac8888aef",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ksfraser\\CommonDb\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Generic, transport-agnostic data dictionary + SQL query builder with a MySQL/PDO adapter (standalone) and a FrontAccounting db_* adapter. DAOs/repositories code once against DbConnectionInterface; DI picks the runtime adapter.",
+            "support": {
+                "issues": "https://github.com/ksfraser/ksf_common_db/issues",
+                "source": "https://github.com/ksfraser/ksf_common_db/tree/v1.0.0"
+            },
+            "time": "2026-09-01T04:29:46+00:00"
+        },
         {
             "name": "ksfraser/traits",
             "version": "1.3.0",

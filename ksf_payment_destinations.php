@@ -12,6 +12,9 @@
 
 chdir(__DIR__);
 
+header('Cache-Control: no-store, must-revalidate');
+header('Pragma: no-cache');
+
 $autoload = __DIR__ . '/vendor/autoload.php';
 if (file_exists($autoload)) {
     require_once $autoload;
@@ -115,9 +118,13 @@ $debug[] = "RENDER page";
 $js = '';
 page(_('Payment Destinations'), true, false, '', $js);
 
-echo '<!-- DEBUG: ' . implode(' | ', $debug) . ' -->';
+// Debug output - put in a visible HTML comment
+echo "\n<!-- DEBUG: " . implode(' | ', $debug) . " -->\n";
+echo "\n<!-- PD-PAGE-UNIQUE-MARKER-V3 -->\n";
+flush();
+
 echo '<div class="ksf-pd-container">';
-echo '<h3>' . _('Payment Term → Bank Account Mappings') . '</h3>';
+echo '<h3>' . _('*** UAT TEST V3: Payment Term → Bank Account Mappings') . '</h3>';
 
 // Listing via QueryBuilder (no WHERE, so no param substitution needed)
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");

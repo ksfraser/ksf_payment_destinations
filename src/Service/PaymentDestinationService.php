@@ -28,8 +28,12 @@ class PaymentDestinationService implements PaymentDestinationServiceInterface
 
     public function addMapping(array $data): bool
     {
-        $enriched = $this->resolveMappingName($data);
-        return $this->repo->insert($enriched);
+        $paymentTerm = (int) ($data['payment_term'] ?? 0);
+        $bankAccount = (int) ($data['bank_account'] ?? 0);
+        if ($paymentTerm <= 0 || $bankAccount <= 0) {
+            return false;
+        }
+        return $this->repo->insert($paymentTerm, $bankAccount);
     }
 
     public function resolveMappingName(array $data): array
