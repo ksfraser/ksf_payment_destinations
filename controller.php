@@ -102,6 +102,8 @@ echo "\n<!-- PD-CONTROLLER-V2 -->\n";
 
 echo '<div class="ksf-pd-container">';
 
+echo "\n<!-- BEFORE-ROW-LOAD -->\n";
+
 // Load rows for the table
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
 $listQb->select([
@@ -114,7 +116,9 @@ $listQb->join($tbPref . 'payment_terms pt', 'pt.terms_indicator = pd.payment_ter
 $listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
+echo "\n<!-- BEFORE-DB-QUERY -->\n";
 $result = db_query($listQb->toSql(), 'load mappings');
+echo "\n<!-- AFTER-DB-QUERY -->\n";
 $rows = [];
 while ($row = db_fetch_assoc($result)) {
     $rows[] = $row;
