@@ -92,27 +92,16 @@ page(_('Payment Destinations'), true, false, '', $js);
 
 echo '<div class="ksf-pd-container">';
 
-// Load rows for the table
-$listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
-$listQb->select([
-    'pd.id',
-    'pd.payment_term',
-    'pt.terms as payment_term_name',
-    'ba.bank_account_name',
-    'ba.account_code as bank_account_code'
-]);
-$listQb->join($tbPref . 'payment_terms pt', 'pt.terms_indicator = pd.payment_term');
-$listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
-$listQb->orderBy('pt.terms', 'ASC');
-
-$result = db_query($listQb->toSql(), 'load mappings');
-$rows = [];
-while ($row = db_fetch_assoc($result)) {
-    $rows[] = $row;
+// DEBUG
+echo "<!-- BEFORE-SUMMARYVIEW -->";
+try {
+    echo "<!-- BEFORE-NEW-SUMMARYVIEW -->";
+    (new \ksfraser\PaymentDestinations\UI\SummaryView($rows))->render();
+    echo "<!-- AFTER-SUMMARYVIEW -->";
+} catch (Throwable $e) {
+    echo "<!-- ERROR: " . $e->getMessage() . " -->";
 }
-
-// Render via SummaryView (composes table + form components)
-(new \ksfraser\PaymentDestinations\UI\SummaryView($rows))->render();
+echo "<!-- AFTER-SUMMARYVIEW-BLOCK -->";
 
 echo '</div>';
 end_page();
