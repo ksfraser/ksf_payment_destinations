@@ -110,7 +110,7 @@ $listQb->select([
     'pd.payment_term',
     'pt.terms as payment_term_name',
     'ba.bank_account_name',
-    'ba.bank_account_code'
+    'ba.account_code as bank_account_code'
 ]);
 $listQb->join($tbPref . 'payment_terms pt', 'pt.terms_indicator = pd.payment_term');
 $listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
