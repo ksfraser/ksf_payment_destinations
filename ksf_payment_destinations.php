@@ -20,6 +20,11 @@ if (file_exists($autoload)) {
 $page_security = 'SA_ksf_payment_destinations';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
+
+// TB_PREF may be unresolved in standalone include; default to company 0 prefix
+if (!defined('TB_PREF') || TB_PREF === '&TB_PREF&') {
+    define('TB_PREF', '0_');
+}
 add_access_extensions();
 set_ext_domain('modules/ksf_payment_destinations');
 include_once $path_to_root . '/includes/ui.inc';
@@ -27,9 +32,14 @@ include_once $path_to_root . '/includes/data_checks.inc';
 
 $tableName = TB_PREF . 'ksf_payment_destinations';
 
+$debug = [];
+$debug[] = "START - TB_PREF=$tableName";
+
 // Auto-create table if missing
+$debug[] = "CHECK TABLE";
 $result = db_query("SHOW TABLES LIKE '$tableName'", 'check table');
-if (!db_fetch_row($result)) {
+$debug[] = "SHOW TABLES result: " . ($result ? "ok" : "fail");
+if ($result && !db_fetch_row($result)) {
     db_query(
         "CREATE TABLE IF NOT EXISTS $tableName (
             payment_term INT(11) NOT NULL DEFAULT 0,
@@ -108,14 +118,17 @@ if ($editTerm > 0) {
 }
 
 // -- Render page --
+$debug[] = "RENDER page";
 $js = '';
 page(_('Payment Destinations'), true, false, '', $js);
 
+echo '<!-- DEBUG: ' . implode(' | ', $debug) . ' -->';
 echo '<div class="ksf-pd-container">';
 echo '<h3>' . _('Payment Term → Bank Account Mappings') . '</h3>';
 
 // Listing via QueryBuilder (no WHERE, so no param substitution needed)
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
+$debug[] = "LIST Qb built";
 $listQb->select([
     'pd.payment_term',
     'pt.terms as payment_term_name',
@@ -126,7 +139,9 @@ $listQb->join(TB_PREF . 'payment_terms pt', 'pt.terms_indicator = pd.payment_ter
 $listQb->join(TB_PREF . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
+$debug[] = "SQL: " . $listQb->toSql();
 $result = db_query($listQb->toSql(), 'load mappings');
+$debug[] = "LIST Q done, rows: " . ($result ? db_num_rows($result) : 'query failed');
 
 start_form();
 start_table(TABLESTYLE2, 'width=60%');
@@ -145,6 +160,7 @@ end_table();
 end_form();
 
 // Add or Edit form
+$debug[] = "RENDER ADD FORM";
 echo '<h3>' . ($editRow ? _('Edit Mapping') : _('Add New Mapping')) . '</h3>';
 echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
 start_table(TABLESTYLE2, 'width=40%');
