@@ -1,17 +1,14 @@
 <?php
 namespace ksfraser\PaymentDestinations\QueryBuilder;
 
-/**
- * Generic SQL Query Builder — candidate for ksf_modules_common or ksf_query_builder package.
- * @deprecated This module-specific copy should be replaced with a shared library version.
- * @see https://github.com/ksfraser/ksf_query_builder (proposed)
- */
 class QueryBuilder
 {
     protected string $table;
+    protected array $fields = ['*'];
     protected array $where = [];
-    protected array $fields = [];
     protected ?string $orderBy = null;
+    protected array $joins = [];
+    protected ?string $delete = null;
 
     public function __construct(string $table)
     {
@@ -21,12 +18,35 @@ class QueryBuilder
     public function select(array $fields = ['*']): self
     {
         $this->fields = $fields;
+        $this->delete = null;
         return $this;
     }
 
+    public function delete(): self
+    {
+        $this->delete = $this->table;
+        $this->fields = [];
+        return $this;
+    }
+
+    public function join(string $table, string $on, string $type = 'LEFT'): self
+    {
+        $this->joins[] = "$type JOIN $table ON $on";
+        return $this;
+    }
+
+    /**
+     * Add a WHERE condition. In non-FA context, use parameterized form.
+     * In FA context (where db_query doesn't support prepared statements),
+     * pass $paramValue as null to embed the value directly in the clause.
+     */
     public function where(string $column, $value, string $op = '='): self
     {
-        $this->where[] = ["$column $op", $value];
+        if ($value === null) {
+            $this->where[] = ["$column $op", null];
+        } else {
+            $this->where[] = ["$column $op ?", $value];
+        }
         return $this;
     }
 
@@ -38,13 +58,46 @@ class QueryBuilder
 
     public function toSql(): string
     {
-        $sql = 'SELECT ' . implode(', ', $this->fields) . ' FROM ' . $this->table;
+        if ($this->delete !== null) {
+            $sql = 'DELETE FROM ' . $this->delete;
+        } else {
+            $sql = 'SELECT ' . implode(', ', $this->fields) . ' FROM ' . $this->table;
+            foreach ($this->joins as $join) {
+                $sql .= ' ' . $join;
+            }
+        }
         if (!empty($this->where)) {
             $clauses = array_map(fn($w) => $w[0], $this->where);
             $sql .= ' WHERE ' . implode(' AND ', $clauses);
         }
         if ($this->orderBy) {
             $sql .= ' ORDER BY ' . $this->orderBy;
+        }
+        return $sql;
+    }
+
+    /**
+     * Substitute ? placeholders with escaped values.
+     * Safe for integers and strings. FA uses this since db_query has no prepared statements.
+     */
+    public function toParams(): array
+    {
+        return array_map(fn($w) => $w[1], $this->where);
+    }
+
+    /**
+     * Return SQL with ? placeholders substituted (for FA compatibility).
+     * Uses intval/string escaping for safety.
+     */
+    public function toFaSql(): string
+    {
+        $sql = $this->toSql();
+        foreach ($this->toParams() as $param) {
+            if ($param === null) {
+                continue;
+            }
+            $replacement = is_int($param) ? (string) $param : "'" . addslashes((string) $param) . "'";
+            $sql = preg_replace('/\?/', $replacement, $sql, 1);
         }
         return $sql;
     }
