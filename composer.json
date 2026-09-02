@@ -12,7 +12,7 @@
         "ksfraser/ksf_modules_common": "*"
     },
     "autoload": {"psr-4":{"ksfraser\\PaymentDestinations\\":"src/","ksfraser\\FrontAccounting\\PaymentDestinations\\":"src/"}},
-    "autoload-dev": {"psr-4":{"Tests\\":"Tests/"},"files":["vendor/ksfraser/famock/php/FAMock.php"]},
+    "autoload-dev": {"psr-4":{"Tests\\":"Tests/"}},
     "scripts": {
         "lint": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
         "test": [
