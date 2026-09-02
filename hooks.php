@@ -153,6 +153,8 @@ class hooks_ksf_payment_destinations extends hooks {
                     $cart->payment_terms['cash_sale'] = 1;
                 }
             }
+            return true;
+        }
         return true;
     }
 }
