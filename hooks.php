@@ -120,19 +120,8 @@ class hooks_ksf_payment_destinations extends hooks {
         return true;
     }
 
-    /***************************************************************************************//**
+    /***************************************************************************************/    /**
      * Intercept ST_SALESINVOICE, route payment to mapped bank account.
-     *
-     * NEW PSR-4 implementation:
-     *   PaymentDestinationService (DI wired: Repository + QueryBuilder)
-     *
-     * LEGACY (commented — for reference during transition):
-     *   require_once 'class.ksf_payment_destinations_model.php';
-     *   $pay = new ksf_payment_destinations_model(ksf_payment_destinations_PREFS, $this);
-     *   $pay->set_var("payment_term", $cart->payment_terms['terms_indicator']);
-     *   $pay->select_row();
-     *   $cart->pos['pos_account'] = $pay->get("bank_account");
-     *   if (!$cart->payment_terms['cash_sale']) { $cart->payment_terms['cash_sale'] = 1; }
      *
      * @BABOK Related: BR-PD-001-payment-routing.md, BR-PD-002-cash-sale-redirect.md, FR-PD-001-003-payment-redirect.md
      * ***********************************************************************************/
@@ -164,30 +153,6 @@ class hooks_ksf_payment_destinations extends hooks {
                     $cart->payment_terms['cash_sale'] = 1;
                 }
             }
-            return true;
-        }
-
-        // -- LEGACY implementation (no Composer required) --
-        if (!class_exists('ksf_payment_destinations_model', false)) {
-            require_once __DIR__ . '/class.ksf_payment_destinations_model.php';
-        }
-        $pay = new ksf_payment_destinations_model(ksf_payment_destinations_PREFS, $this);
-        $pay->set_var("payment_term", $term);
-        try {
-            $pay->select_row();
-            $cart->pos['pos_account'] = $pay->get("bank_account");
-        } catch (Exception $e) {
-            if (KSF_FIELD_NOT_SET == $e->getCode()) {
-                if (strpos($e->getMessage(), 'bank_account') !== false) {
-                    return true;
-                }
-            } else {
-                display_error(__METHOD__ . ':' . __LINE__ . ' ' . $e->getMessage());
-            }
-        }
-        if (!($cart->payment_terms['cash_sale'] ?? false)) {
-            $cart->payment_terms['cash_sale'] = 1;
-        }
         return true;
     }
 }
