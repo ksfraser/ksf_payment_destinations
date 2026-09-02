@@ -27,6 +27,21 @@ include_once $path_to_root . '/includes/data_checks.inc';
 
 $tableName = TB_PREF . 'ksf_payment_destinations';
 
+// Auto-create table if missing
+$result = db_query("SHOW TABLES LIKE '$tableName'", 'check table');
+if (!db_fetch_row($result)) {
+    db_query(
+        "CREATE TABLE IF NOT EXISTS $tableName (
+            payment_term INT(11) NOT NULL DEFAULT 0,
+            payment_term_name VARCHAR(100) NOT NULL DEFAULT '',
+            bank_account INT(11) NOT NULL DEFAULT 0,
+            bank_account_name VARCHAR(100) NOT NULL DEFAULT '',
+            PRIMARY KEY (payment_term)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+        'create table'
+    );
+}
+
 // -- Detect action from POST --
 $editTerm = null;
 $delTerm  = null;
