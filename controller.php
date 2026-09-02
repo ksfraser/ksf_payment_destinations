@@ -123,6 +123,7 @@ $rows = [];
 while ($row = db_fetch_assoc($result)) {
     $rows[] = $row;
 }
+echo "\n<!-- ROWS-COUNT: " . count($rows) . " -->\n";
 
 // Load edit row if editing
 $editRow = null;
