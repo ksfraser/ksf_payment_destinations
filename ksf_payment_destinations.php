@@ -21,16 +21,9 @@ $page_security = 'SA_ksf_payment_destinations';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
 
-// TB_PREF may be unresolved in standalone include; default to company 0 prefix
-if (!defined('TB_PREF') || TB_PREF === '&TB_PREF&') {
-    define('TB_PREF', '0_');
-}
-add_access_extensions();
-set_ext_domain('modules/ksf_payment_destinations');
-include_once $path_to_root . '/includes/ui.inc';
-include_once $path_to_root . '/includes/data_checks.inc';
-
-$tableName = TB_PREF . 'ksf_payment_destinations';
+// TB_PREF may be &TB_PREF& (unresolved); default to '0_' for company 0
+$tbPref = (defined('TB_PREF') && TB_PREF !== '&TB_PREF&') ? TB_PREF : '0_';
+$tableName = $tbPref . 'ksf_payment_destinations';
 
 $debug = [];
 $debug[] = "START - TB_PREF=$tableName";
@@ -89,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 db_query(
                     "UPDATE $tableName
                      SET bank_account = $bankAccount,
-                         bank_account_name = (SELECT bank_account_name FROM " . TB_PREF . "bank_accounts WHERE id = $bankAccount)
+                         bank_account_name = (SELECT bank_account_name FROM " . $tbPref . "bank_accounts WHERE id = $bankAccount)
                      WHERE payment_term = $paymentTerm",
                     'update mapping'
                 );
@@ -97,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 db_query(
                     "INSERT INTO $tableName (payment_term, payment_term_name, bank_account, bank_account_name)
                      SELECT $paymentTerm, pt.terms, $bankAccount, ba.bank_account_name
-                     FROM " . TB_PREF . "payment_terms pt, " . TB_PREF . "bank_accounts ba
+                     FROM " . $tbPref . "payment_terms pt, " . $tbPref . "bank_accounts ba
                      WHERE pt.terms_indicator = $paymentTerm AND ba.id = $bankAccount",
                     'insert mapping'
                 );
@@ -135,8 +128,8 @@ $listQb->select([
     'ba.bank_account_name',
     'ba.bank_account_code'
 ]);
-$listQb->join(TB_PREF . 'payment_terms pt', 'pt.terms_indicator = pd.payment_term');
-$listQb->join(TB_PREF . 'bank_accounts ba', 'ba.id = pd.bank_account');
+$listQb->join($tbPref . 'payment_terms pt', 'pt.terms_indicator = pd.payment_term');
+$listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
 $debug[] = "SQL: " . $listQb->toSql();
