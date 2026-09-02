@@ -4,8 +4,98 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef738e90a4ad5fbef0f742b4e30eeb8a",
-    "packages": [],
+    "content-hash": "8e0cda19500b72ca76efb7f74330d75b",
+    "packages": [
+        {
+            "name": "ksfraser/traits",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/Traits.git",
+                "reference": "463bf8ceaee813305ef9894ccd787a34b05d2651"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/Traits/zipball/463bf8ceaee813305ef9894ccd787a34b05d2651",
+                "reference": "463bf8ceaee813305ef9894ccd787a34b05d2651",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "ksfraser/exceptions": "*",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ksfraser\\Traits\\": "src/Ksfraser/Traits/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A collection of reusable PHP traits for ksfraser projects",
+            "support": {
+                "issues": "https://github.com/ksfraser/Traits/issues",
+                "source": "https://github.com/ksfraser/Traits/tree/1.3.0"
+            },
+            "time": "2026-06-18T07:56:43+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
+            "time": "2021-05-03T11:20:27+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -79,14 +169,20 @@
         },
         {
             "name": "ksfraser/exceptions",
-            "version": "dev-main",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/Exceptions.git",
+                "reference": "04052a8ac7cb595df427dfb68c229e163cbe401c"
+            },
             "dist": {
-                "type": "path",
-                "url": "../Exceptions",
-                "reference": "c5537928a8453a0015868bda68baf9f4387d92e1"
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/Exceptions/zipball/04052a8ac7cb595df427dfb68c229e163cbe401c",
+                "reference": "04052a8ac7cb595df427dfb68c229e163cbe401c",
+                "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.0"
@@ -97,11 +193,7 @@
                     "Ksfraser\\Exceptions\\": "src/Ksfraser/Exceptions/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ksfraser\\Exceptions\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -112,131 +204,11 @@
                 }
             ],
             "description": "A comprehensive exception library for ksfraser projects with factory methods for domain-specific errors.",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "ksfraser/famock",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../famock",
-                "reference": "ead85ee9a40ca3f396d1d9e73fa65fef32f4fa27"
+            "support": {
+                "issues": "https://github.com/ksfraser/Exceptions/issues",
+                "source": "https://github.com/ksfraser/Exceptions/tree/v1.3.0"
             },
-            "require": {
-                "php": ">=7.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ksfraser\\FAMock\\": "php/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ksfraser\\FAMock\\Tests\\": "tests/"
-                },
-                "files": [
-                    "php/FAMock.php",
-                    "php/TestDbResult.php"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "@php vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Fraser",
-                    "email": "kevin@ksfraser.com"
-                }
-            ],
-            "description": "FrontAccounting function mocks for unit testing",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "ksfraser/ksf_modules_common",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../ksf_modules_common",
-                "reference": "1ecd7e516fa091d2fabbaae702239dfc2b7bba42"
-            },
-            "require": {
-                "php": ">=7.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ksfraser\\ModulesCommon\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ksfraser\\ModulesCommon\\Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Fraser",
-                    "email": "kevin@ksfraser.ca"
-                }
-            ],
-            "description": "Shared calculation framework for KSF calculation engines: engine contract, calculation context/result, parameter definitions, and validation rules. Common business logic shared across FrontAccounting, SuiteCRM, and WordPress modules.",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "ksfraser/traits",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../Traits",
-                "reference": "2d0b46930a4976374dd69dc5a89e8b5ce736ca79"
-            },
-            "require": {
-                "php": ">=7.3",
-                "psr/log": "^1.0"
-            },
-            "require-dev": {
-                "ksfraser/exceptions": "*",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ksfraser\\Traits\\": "src/Ksfraser/Traits/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "A collection of reusable PHP traits for ksfraser projects",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2026-05-09T22:11:29+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -801,56 +773,6 @@
                 }
             ],
             "time": "2026-08-11T06:06:51+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
-            },
-            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

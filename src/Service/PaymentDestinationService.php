@@ -2,7 +2,7 @@
 namespace ksfraser\PaymentDestinations\Service;
 
 use ksfraser\PaymentDestinations\Repository\PaymentDestinationRepositoryInterface;
-use ksfraser\PaymentDestinations\Traits\ValidatableTrait;
+use Ksfraser\Traits\ValidatableTrait;
 
 class PaymentDestinationService implements PaymentDestinationServiceInterface
 {
@@ -40,5 +40,10 @@ class PaymentDestinationService implements PaymentDestinationServiceInterface
     public function createTable(): bool
     {
         return $this->repo->createTable();
+    }
+
+    protected function validate(): array
+    {
+        return [];
     }
 }

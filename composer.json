@@ -3,13 +3,13 @@
     "description": "Direct Invoice Payment Destinations for FrontAccounting",
     "type": "library",
     "license": "GPL-2.0",
-    "require": {"php": ">=7.3"},
+    "require": {
+        "php": ">=7.3",
+        "ksfraser/traits": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "^7.5 || ^8.5",
-        "ksfraser/famock": "*",
-        "ksfraser/traits": "*",
-        "ksfraser/exceptions": "*",
-        "ksfraser/ksf_modules_common": "*"
+        "ksfraser/exceptions": "*"
     },
     "autoload": {"psr-4":{"ksfraser\\PaymentDestinations\\":"src/","ksfraser\\FrontAccounting\\PaymentDestinations\\":"src/"}},
     "autoload-dev": {"psr-4":{"Tests\\":"Tests/"}},

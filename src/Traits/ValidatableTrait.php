@@ -5,10 +5,10 @@ trait ValidatableTrait
 {
     public function validateMappingData(array $data): bool
     {
-        return isset($data['payment_term'], $data['bank_account']);
+        return isset($data['payment_term']) && isset($data['bank_account']);
     }
 
-    public function enforceNotNull(array $fields): self
+    public function enforceNotNull(array $data): self
     {
         return $this;
     }
