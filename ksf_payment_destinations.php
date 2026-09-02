@@ -21,8 +21,8 @@ $page_security = 'SA_ksf_payment_destinations';
 $path_to_root = '../..';
 include_once $path_to_root . '/includes/session.inc';
 
-// TB_PREF may be &TB_PREF& (unresolved); default to '0_' for company 0
-$tbPref = (defined('TB_PREF') && TB_PREF !== '&TB_PREF&') ? TB_PREF : '0_';
+// Resolve TB_PREF — may be literal '&TB_PREF&' when included outside FA context; default to '0_'
+$tbPref = defined('TB_PREF') ? str_replace('&TB_PREF&', '0_', TB_PREF) : '0_';
 $tableName = $tbPref . 'ksf_payment_destinations';
 
 $debug = [];
