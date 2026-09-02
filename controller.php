@@ -94,6 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // -- Render page --
 $js = '';
+global $page_nested;
+$page_nested = -1;
 page(_('Payment Destinations'), true, false, '', $js);
 
 echo "\n<!-- PD-CONTROLLER-V2 -->\n";
@@ -127,7 +129,9 @@ if ($action === 'edit' && $id) {
 }
 
 // Render via SummaryView (composes table + form components)
+echo "\n<!-- BEFORE SUMMARYVIEW -->\n";
 (new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow))->render();
+echo "\n<!-- AFTER SUMMARYVIEW -->\n";
 
 echo '</div>';
 end_page();
