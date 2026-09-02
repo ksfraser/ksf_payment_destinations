@@ -134,15 +134,15 @@ if ($action === 'edit' && $id) {
 }
 
 // Render via SummaryView (composes table + form components)
-echo "\n<!-- BEFORE-SUMMARYVIEW-TRY -->\n";
+echo "\n<!-- BEFORE-SUMMARYVIEW -->\n";
 try {
-    echo "\n<!-- INSIDE-TRY -->\n";
+    echo "\n<!-- INSIDE-SUMMARYVIEW-TRY -->\n";
     $sv = new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow);
-    echo "\n<!-- SUMMARYVIEW INSTANTIATED -->\n";
+    echo "\n<!-- BEFORE-SUMMARYVIEW-RENDER -->\n";
     $sv->render();
-    echo "\n<!-- SUMMARYVIEW RENDERED -->\n";
+    echo "\n<!-- AFTER-SUMMARYVIEW-RENDER -->\n";
 } catch (Throwable $e) {
-    echo "\n<!-- SUMMARYVIEW ERROR: " . $e->getMessage() . " -->\n";
+    echo "\n<!-- SUMMARYVIEW-ERROR: " . $e->getMessage() . " -->\n";
 }
 echo "\n<!-- AFTER-SUMMARYVIEW -->\n";
 

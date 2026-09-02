@@ -30,12 +30,16 @@ class SummaryView
     {
         echo '<h3>' . _('Payment Term → Bank Account Mappings') . '</h3>';
         echo '<div id="ksf_pd_table">';
+        echo "\n<!-- SUMMARYTABLE-BEFORE -->\n";
         (new SummaryTableComponent($this->rows))->render();
+        echo "\n<!-- SUMMARYTABLE-AFTER -->\n";
         echo '</div>';
 
         echo '<h3>' . ($this->editRow ? _('Edit Mapping') : _('Add New Mapping')) . '</h3>';
         echo '<div id="ksf_pd_form">';
+        echo "\n<!-- MAPPINGFORM-BEFORE -->\n";
         (new MappingFormComponent($this->editRow))->render();
+        echo "\n<!-- MAPPINGFORM-AFTER -->\n";
         echo '</div>';
     }
 
