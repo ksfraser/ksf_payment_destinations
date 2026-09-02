@@ -99,11 +99,7 @@ global $page_nested;
 $page_nested = -1;
 page(_('Payment Destinations'), true, false, '', $js);
 
-echo "\n<!-- PD-CONTROLLER-V2 -->\n";
-
 echo '<div class="ksf-pd-container">';
-
-echo "\n<!-- BEFORE-ROW-LOAD -->\n";
 
 // Load rows for the table
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
@@ -117,14 +113,11 @@ $listQb->join($tbPref . 'payment_terms pt', 'pt.terms_indicator = pd.payment_ter
 $listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
-echo "\n<!-- BEFORE-DB-QUERY -->\n";
 $result = db_query($listQb->toSql(), 'load mappings');
-echo "\n<!-- AFTER-DB-QUERY -->\n";
 $rows = [];
 while ($row = db_fetch_assoc($result)) {
     $rows[] = $row;
 }
-echo "\n<!-- ROWS-COUNT: " . count($rows) . " -->\n";
 
 // Load edit row if editing
 $editRow = null;
@@ -135,17 +128,7 @@ if ($action === 'edit' && $id) {
 }
 
 // Render via SummaryView (composes table + form components)
-echo "\n<!-- BEFORE-SUMMARYVIEW -->\n";
-try {
-    echo "\n<!-- INSIDE-SUMMARYVIEW-TRY -->\n";
-    $sv = new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow);
-    echo "\n<!-- BEFORE-SUMMARYVIEW-RENDER -->\n";
-    $sv->render();
-    echo "\n<!-- AFTER-SUMMARYVIEW-RENDER -->\n";
-} catch (Throwable $e) {
-    echo "\n<!-- SUMMARYVIEW-ERROR: " . $e->getMessage() . " -->\n";
-}
-echo "\n<!-- AFTER-SUMMARYVIEW -->\n";
+(new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow))->render();
 
 echo '</div>';
 end_page();
