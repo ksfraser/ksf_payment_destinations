@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $qb->delete()->where('payment_term', $id);
                 db_query($qb->toFaSql(), 'delete mapping');
             }
-            meta_redirect('controller.php?action=list');
+            meta_redirect('controller.php');
             exit;
 
         case 'save':
@@ -95,13 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $js = '';
 page(_('Payment Destinations'), true, false, '', $js);
 
-echo "\n<!-- PD-CONTROLLER-V1 -->\n";
+echo "\n<!-- PD-CONTROLLER-V2 -->\n";
 
 echo '<div class="ksf-pd-container">';
 
-// -- Render summary table (always shown) --
-echo '<h3>' . _('Payment Term → Bank Account Mappings') . '</h3>';
-
+// Load rows for the table
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
 $listQb->select([
     'pd.payment_term',
@@ -114,24 +112,12 @@ $listQb->join($tbPref . 'bank_accounts ba', 'ba.id = pd.bank_account');
 $listQb->orderBy('pt.terms', 'ASC');
 
 $result = db_query($listQb->toSql(), 'load mappings');
-
-start_form(false, false, 'delete-form');
-start_table(TABLESTYLE2, 'width=60%');
-$th = [_('Payment Term'), _('Bank Account'), '', ''];
-table_header($th);
-$k = 0;
+$rows = [];
 while ($row = db_fetch_assoc($result)) {
-    alt_table_row_color($k);
-    label_cell($row['payment_term_name']);
-    label_cell($row['bank_account_name'] . ' (' . $row['bank_account_code'] . ')');
-    echo '<td><a href="controller.php?action=edit&term=' . $row['payment_term'] . '">' . _('Edit') . '</a></td>';
-    echo '<td><a href="controller.php?action=delete&term=' . $row['payment_term'] . '" onclick="return confirm(\'' . _('Are you sure?') . '\');">' . _('Delete') . '</a></td>';
-    end_row();
+    $rows[] = $row;
 }
-end_table();
-end_form();
 
-// -- Render add/edit form below summary table --
+// Load edit row if editing
 $editRow = null;
 if ($action === 'edit' && $id) {
     $editQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
@@ -139,25 +125,8 @@ if ($action === 'edit' && $id) {
     $editRow = db_fetch(db_query($editQb->toFaSql(), 'load edit row'));
 }
 
-$selectedTerm = $editRow['payment_term'] ?? ($_POST['payment_term'] ?? '');
-$selectedBank = $editRow['bank_account'] ?? ($_POST['bank_account'] ?? '');
-
-echo '<h3>' . ($editRow ? _('Edit Mapping') : _('Add New Mapping')) . '</h3>';
-echo '<form method="post" action="controller.php">';
-echo '<input type="hidden" name="action" value="save">';
-if ($editRow) {
-    echo '<input type="hidden" name="payment_term" value="' . $editRow['payment_term'] . '">';
-}
-start_table(TABLESTYLE2, 'width=40%');
-$th = [_('Payment Term'), _('Bank Account')];
-table_header($th);
-start_row();
-echo '<td>' . sale_payment_list('payment_term', $selectedTerm, false, true) . '</td>';
-echo '<td>' . bank_accounts_list('bank_account', $selectedBank, false, false) . '</td>';
-end_row();
-end_table(1);
-submit_center($editRow ? 'Update' : 'Add', _($editRow ? 'Update Mapping' : 'Add Mapping'));
-end_form();
+// Render via SummaryView (composes table + form components)
+(new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow))->render();
 
 echo '</div>';
 end_page();
