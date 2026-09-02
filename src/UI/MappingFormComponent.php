@@ -14,27 +14,12 @@ namespace ksfraser\PaymentDestinations\UI;
 
 class MappingFormComponent
 {
-    private ?array $editRow;
-    private string $submitLabel;
-    private string $submitName;
-
-    public function __construct(?array $editRow = null)
-    {
-        $this->editRow = $editRow;
-        $this->submitLabel = $editRow ? _('Update Mapping') : _('Add Mapping');
-        $this->submitName = $editRow ? 'Update' : 'Add';
-    }
-
     public function render(): void
     {
-        $selectedTerm = $this->editRow['payment_term'] ?? ($_POST['payment_term'] ?? '');
-        $selectedBank = $this->editRow['bank_account'] ?? ($_POST['bank_account'] ?? '');
+        $selectedTerm = $_POST['payment_term'] ?? '';
+        $selectedBank = $_POST['bank_account'] ?? '';
 
         echo '<form method="post" action="controller.php">';
-        echo '<input type="hidden" name="action" value="save">';
-        if ($this->editRow) {
-            echo '<input type="hidden" name="payment_term" value="' . (int) $this->editRow['payment_term'] . '">';
-        }
         start_table(TABLESTYLE2, 'width=40%');
         $th = [_('Payment Term'), _('Bank Account')];
         table_header($th);
@@ -43,8 +28,7 @@ class MappingFormComponent
         echo '<td>' . bank_accounts_list('bank_account', $selectedBank, false, false) . '</td>';
         end_row();
         end_table(1);
-        submit_center($this->submitName, $this->submitLabel);
-        echo ' <a href="controller.php">' . _('Cancel') . '</a>';
+        submit_center('Add', _('Add Mapping'));
         end_form();
     }
 

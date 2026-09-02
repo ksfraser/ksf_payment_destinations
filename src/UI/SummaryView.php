@@ -4,8 +4,8 @@
  *
  * Renders the full payment destinations page:
  *   1. Page header + heading
- *   2. Summary table (always shown)
- *   3. Add/Edit form (below table)
+ *   2. Summary table with Edit/Delete (POST-based)
+ *   3. Add form below
  *
  * @package Ksfraser\PaymentDestinations\UI
  */
@@ -14,16 +14,13 @@ namespace ksfraser\PaymentDestinations\UI;
 
 class SummaryView
 {
-    /** @var array<int, array{payment_term: int, payment_term_name: string, bank_account_name: string, bank_account_code: string}> */
+    /** @var array<int, array{id?: int, payment_term: int, payment_term_name: string, bank_account_name: string, bank_account_code: string}> */
     private array $rows;
 
-    private ?array $editRow;
-
-    /** @param array<int, array{payment_term: int, payment_term_name: string, bank_account_name: string, bank_account_code: string}> $rows */
-    public function __construct(array $rows, ?array $editRow = null)
+    /** @param array<int, array{id?: int, payment_term: int, payment_term_name: string, bank_account_name: string, bank_account_code: string}> $rows */
+    public function __construct(array $rows)
     {
         $this->rows = $rows;
-        $this->editRow = $editRow;
     }
 
     public function render(): void
@@ -33,9 +30,9 @@ class SummaryView
         (new SummaryTableComponent($this->rows))->render();
         echo '</div>';
 
-        echo '<h3>' . ($this->editRow ? _('Edit Mapping') : _('Add New Mapping')) . '</h3>';
+        echo '<h3>' . _('Add New Mapping') . '</h3>';
         echo '<div id="ksf_pd_form">';
-        (new MappingFormComponent($this->editRow))->render();
+        (new MappingFormComponent())->render();
         echo '</div>';
     }
 

@@ -50,46 +50,37 @@ if (!db_fetch_row($result)) {
 $action = $_POST['action'] ?? $_GET['action'] ?? 'list';
 $id = $_GET['term'] ?? null;
 
-// -- POST actions --
+// -- POST actions (legacy pattern: Edit{id} / Delete{id}) --
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    switch ($action) {
-        case 'delete':
-            if ($id) {
-                $qb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-                $qb->delete()->where('payment_term', $id);
-                db_query($qb->toFaSql(), 'delete mapping');
+    // Legacy-style: Delete{id} button
+    foreach ($_POST as $key => $val) {
+        if (strpos($key, 'Delete') === 0) {
+            $id = (int) substr($key, 6);
+            if ($id > 0) {
+                db_query("DELETE FROM $tableName WHERE id = $id", 'delete mapping');
             }
-            meta_redirect('controller.php');
+            meta_redirect($_SERVER['PHP_SELF']);
             exit;
+        }
+        if (strpos($key, 'Edit') === 0) {
+            $id = (int) substr($key, 4);
+            // Will load edit row below
+            break;
+        }
+    }
 
-        case 'save':
-            $paymentTerm = (int) ($_POST['payment_term'] ?? 0);
-            $bankAccount = (int) ($_POST['bank_account'] ?? 0);
-            if ($paymentTerm > 0 && $bankAccount > 0) {
-                $checkQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-                $checkQb->select()->where('payment_term', $paymentTerm);
-                $existing = db_fetch(db_query($checkQb->toFaSql(), 'check existing'));
-
-                if ($existing) {
-                    db_query(
-                        "UPDATE $tableName
-                         SET bank_account = $bankAccount,
-                             bank_account_name = (SELECT bank_account_name FROM " . $tbPref . "bank_accounts WHERE id = $bankAccount)
-                         WHERE payment_term = $paymentTerm",
-                        'update mapping'
-                    );
-                } else {
-                    db_query(
-                        "INSERT INTO $tableName (payment_term, payment_term_name, bank_account, bank_account_name)
-                         SELECT $paymentTerm, pt.terms, $bankAccount, ba.bank_account_name
-                         FROM " . $tbPref . "payment_terms pt, " . $tbPref . "bank_accounts ba
-                         WHERE pt.terms_indicator = $paymentTerm AND ba.id = $bankAccount",
-                        'insert mapping'
-                    );
-                }
-            }
-            meta_redirect('controller.php?action=list');
-            exit;
+    // Add/Update mapping
+    if (isset($_POST['payment_term']) && isset($_POST['bank_account'])) {
+        $paymentTerm = (int) $_POST['payment_term'];
+        $bankAccount = (int) $_POST['bank_account'];
+        if ($paymentTerm > 0 && $bankAccount > 0) {
+            db_query(
+                "INSERT INTO $tableName (payment_term, bank_account) VALUES ($paymentTerm, $bankAccount)",
+                'insert mapping'
+            );
+        }
+        meta_redirect($_SERVER['PHP_SELF']);
+        exit;
     }
 }
 
@@ -104,6 +95,7 @@ echo '<div class="ksf-pd-container">';
 // Load rows for the table
 $listQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder("$tableName pd");
 $listQb->select([
+    'pd.id',
     'pd.payment_term',
     'pt.terms as payment_term_name',
     'ba.bank_account_name',
@@ -119,16 +111,8 @@ while ($row = db_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-// Load edit row if editing
-$editRow = null;
-if ($action === 'edit' && $id) {
-    $editQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-    $editQb->select()->where('payment_term', $id);
-    $editRow = db_fetch(db_query($editQb->toFaSql(), 'load edit row'));
-}
-
 // Render via SummaryView (composes table + form components)
-(new \ksfraser\PaymentDestinations\UI\SummaryView($rows, $editRow))->render();
+(new \ksfraser\PaymentDestinations\UI\SummaryView($rows))->render();
 
 echo '</div>';
 end_page();
