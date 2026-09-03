@@ -80,13 +80,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // -- Load data for rendering --
 $rows = $repo->findAll();
 
+// DEBUG - direct query
+$directResult = db_query("SELECT * FROM $tableName WHERE payment_term = 1", 'direct test');
+$directRow = db_fetch($directResult);
+echo "<!-- DEBUG DIRECT: term=1, found=" . ($directRow ? 'yes' : 'no') . " -->";
+
 $editRow = null;
 if ($editTerm > 0) {
+    $editQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
+    $editQb->select()->where('payment_term', $editTerm);
+    $editSql = $editQb->toSql();
+    $editParams = $editQb->toParams();
+    echo "<!-- DEBUG: editSql=$editSql, editParams=" . json_encode($editParams) . " -->";
     $editRow = $repo->findByPaymentTerm($editTerm);
-    // DEBUG - show raw SQL that would be used
-    $debugQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-    $debugQb->select()->where('payment_term', $editTerm);
-    echo "<!-- DEBUG SQL: " . $debugQb->toSql() . " PARAMS: " . json_encode($debugQb->toParams()) . " -->";
     echo "<!-- FIND_RESULT: term=$editTerm, result=" . ($editRow ? json_encode($editRow) : 'null') . " -->";
 }
 
