@@ -74,7 +74,7 @@ if ($action === 'edit' && $id) {
 $js = '';
 global $page_nested;
 $page_nested = -1;
-page(_('Payment Destinations'), true, false, '', $js);
+page(_('Payment Destinations'), false, false, '', $js);
 
 echo '<div class="ksf-pd-container">';
 echo '<h3>' . _('Payment Term → Bank Account Mappings') . '</h3>';
