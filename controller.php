@@ -83,6 +83,10 @@ $rows = $repo->findAll();
 $editRow = null;
 if ($editTerm > 0) {
     $editRow = $repo->findByPaymentTerm($editTerm);
+    // DEBUG - show raw SQL that would be used
+    $debugQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
+    $debugQb->select()->where('payment_term', $editTerm);
+    echo "<!-- DEBUG SQL: " . $debugQb->toSql() . " PARAMS: " . json_encode($debugQb->toParams()) . " -->";
     echo "<!-- FIND_RESULT: term=$editTerm, result=" . ($editRow ? json_encode($editRow) : 'null') . " -->";
 }
 
