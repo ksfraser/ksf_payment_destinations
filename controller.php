@@ -104,7 +104,7 @@ $th = [_('Payment Term'), _('Bank Account')];
 table_header($th);
 start_row();
 $selectedTerm = $editRow ? $editRow['payment_term'] : ($_POST['payment_term'] ?? '');
-echo '<td>' . sale_payment_list('payment_term', $selectedTerm, false, true) . '</td>';
+echo '<td>' . sale_payment_list('payment_term', null, $selectedTerm, false, false) . '</td>';
 $selectedBank = $editRow ? $editRow['bank_account'] : ($_POST['bank_account'] ?? '');
 echo '<td>' . bank_accounts_list('bank_account', $selectedBank, false, false) . '</td>';
 end_row();
