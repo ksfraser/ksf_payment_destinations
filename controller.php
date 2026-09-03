@@ -55,9 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// DEBUG - output to page
-echo "<!-- POST_DETECT: editTerm=" . var_export($editTerm, true) . ", delTerm=" . var_export($delTerm, true) . ", method=" . ($_SERVER['REQUEST_METHOD'] ?? 'none') . " -->";
-
 // -- Handle POST actions --
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($delTerm > 0) {
@@ -80,20 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // -- Load data for rendering --
 $rows = $repo->findAll();
 
-// DEBUG - direct query
-$directResult = db_query("SELECT * FROM $tableName WHERE payment_term = 1", 'direct test');
-$directRow = db_fetch($directResult);
-echo "<!-- DEBUG DIRECT: term=1, found=" . ($directRow ? 'yes' : 'no') . " -->";
-
 $editRow = null;
 if ($editTerm > 0) {
-    $editQb = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-    $editQb->select()->where('payment_term', $editTerm);
-    $editSql = $editQb->toSql();
-    $editParams = $editQb->toParams();
-    echo "<!-- DEBUG: editSql=$editSql, editParams=" . json_encode($editParams) . " -->";
     $editRow = $repo->findByPaymentTerm($editTerm);
-    echo "<!-- FIND_RESULT: term=$editTerm, result=" . ($editRow ? json_encode($editRow) : 'null') . " -->";
 }
 
 // DEBUG
