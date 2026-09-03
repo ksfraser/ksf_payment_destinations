@@ -38,38 +38,26 @@ if (!$repo->tableExists()) {
     $repo->createTable();
 }
 
-// -- Detect POST actions --
-$editTerm = null;
-$delTerm  = null;
+// -- Routing --
+$action = $_GET['action'] ?? $_POST['action'] ?? 'list';
+$id = $_GET['term'] ?? null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    foreach ($_POST as $key => $val) {
-        if (strpos($key, 'Delete') === 0) {
-            $delTerm = (int) substr($key, 6);
-            break;
-        }
-        if (strpos($key, 'Edit') === 0) {
-            $editTerm = (int) substr($key, 4);
-            break;
-        }
-    }
+// -- Handle actions --
+if ($action === 'delete' && $id) {
+    $repo->deleteByTerm((int) $id);
+    meta_redirect('controller.php');
+    exit;
 }
 
 // -- Handle POST actions --
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($delTerm > 0) {
-        $repo->deleteByTerm($delTerm);
-        echo "<script>location.href='controller.php';</script>";
-        exit;
-    }
-
     if (isset($_POST['payment_term']) && isset($_POST['bank_account'])) {
         $paymentTerm = (int) $_POST['payment_term'];
         $bankAccount = (int) $_POST['bank_account'];
         if ($paymentTerm > 0 && $bankAccount > 0) {
             $repo->upsert($paymentTerm, $bankAccount);
         }
-        echo "<script>location.href='controller.php';</script>";
+        meta_redirect('controller.php');
         exit;
     }
 }
@@ -78,12 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $rows = $repo->findAll();
 
 $editRow = null;
-if ($editTerm > 0) {
-    $editRow = $repo->findByPaymentTerm($editTerm);
+if ($action === 'edit' && $id) {
+    $editRow = $repo->findByPaymentTerm((int) $id);
 }
-
-// DEBUG
-echo "<!-- FORM_RENDER: editRow=" . ($editRow ? 'set' : 'null') . " -->";
 
 // -- Render page --
 $js = '';
@@ -104,8 +89,8 @@ foreach ($rows as $row) {
     alt_table_row_color($k);
     label_cell(htmlspecialchars($row['payment_term_name']));
     label_cell(htmlspecialchars($row['bank_account_name']) . ' (' . htmlspecialchars($row['bank_account_code']) . ')');
-    edit_button_cell('Edit' . $row['payment_term'], _('Edit'));
-    delete_button_cell('Delete' . $row['payment_term'], _('Delete'));
+    echo '<td><a href="controller.php?action=edit&term=' . (int) $row['payment_term'] . '">' . _('Edit') . '</a></td>';
+    echo '<td><a href="controller.php?action=delete&term=' . (int) $row['payment_term'] . '" onclick="return confirm(\'' . _('Are you sure?') . '\');">' . _('Delete') . '</a></td>';
     end_row();
 }
 end_table();
