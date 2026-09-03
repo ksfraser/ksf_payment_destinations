@@ -21,7 +21,7 @@ class PaymentDestinationRepository implements PaymentDestinationRepositoryInterf
     {
         $qb = new QueryBuilder($this->tableName);
         $qb->select()->where('payment_term', $term);
-        return $this->db->fetchAssoc($qb->toSql(), ['payment_term' => $term]);
+        return $this->db->fetchAssoc($qb->toSql(), $qb->toParams());
     }
 
     public function findAll(): array
@@ -70,7 +70,7 @@ class PaymentDestinationRepository implements PaymentDestinationRepositoryInterf
     {
         $qb = new QueryBuilder($this->tableName);
         $qb->delete()->where('payment_term', $term);
-        return $this->db->executeUpdate($qb->toSql(), ['payment_term' => $term]) >= 0;
+        return $this->db->executeUpdate($qb->toSql(), $qb->toParams()) >= 0;
     }
 
     public function createTable(): bool
