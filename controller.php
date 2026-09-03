@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// DEBUG
+error_log("DEBUG: editTerm=$editTerm, delTerm=$delTerm, POST_method=" . ($_SERVER['REQUEST_METHOD'] ?? 'none'));
+
 // -- Handle POST actions --
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($delTerm > 0) {
@@ -80,7 +83,11 @@ $rows = $repo->findAll();
 $editRow = null;
 if ($editTerm > 0) {
     $editRow = $repo->findByPaymentTerm($editTerm);
+    error_log("DEBUG: findByPaymentTerm($editTerm) = " . ($editRow ? print_r($editRow, true) : 'null'));
 }
+
+// DEBUG
+error_log("DEBUG: editRow=" . ($editRow ? 'set' : 'null'));
 
 // -- Render page --
 $js = '';
@@ -109,6 +116,7 @@ end_table();
 end_form();
 
 // Add/Edit form
+echo '<!-- DEBUG-FORM: editRow=' . ($editRow ? 'set' : 'null') . ' -->';
 echo '<h3>' . ($editRow ? _('Edit Mapping') : _('Add New Mapping')) . '</h3>';
 echo '<form method="post" action="controller.php">';
 start_table(TABLESTYLE2, 'width=40%');
