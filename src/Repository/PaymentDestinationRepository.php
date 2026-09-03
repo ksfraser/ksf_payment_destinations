@@ -21,7 +21,12 @@ class PaymentDestinationRepository implements PaymentDestinationRepositoryInterf
     {
         $qb = new QueryBuilder($this->tableName);
         $qb->select()->where('payment_term', $term);
-        return $this->db->fetchAssoc($qb->toSql(), $qb->toParams());
+        $sql = $qb->toSql();
+        $params = $qb->toParams();
+        $result = $this->db->fetchAssoc($sql, $params);
+        // DEBUG
+        error_log("DEBUG findByPaymentTerm: sql=$sql, params=" . json_encode($params) . ", result=" . ($result ? json_encode($result) : 'null'));
+        return $result;
     }
 
     public function findAll(): array
