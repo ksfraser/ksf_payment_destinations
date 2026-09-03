@@ -45,7 +45,7 @@ $id = $_GET['term'] ?? null;
 // -- Handle actions --
 if ($action === 'delete' && $id) {
     $repo->deleteByTerm((int) $id);
-    meta_redirect('controller.php');
+    echo "<script>location.href='controller.php';</script>";
     exit;
 }
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($paymentTerm > 0 && $bankAccount > 0) {
             $repo->upsert($paymentTerm, $bankAccount);
         }
-        meta_redirect('controller.php');
+        echo "<script>location.href='controller.php';</script>";
         exit;
     }
 }
