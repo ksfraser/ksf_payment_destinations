@@ -141,9 +141,9 @@ class hooks_ksf_payment_destinations extends hooks {
         if (file_exists($autoload)) {
             require_once $autoload;
 
-            $tableName = TB_PREF . 'ksf_payment_destinations';
-            $qb        = new \ksfraser\PaymentDestinations\QueryBuilder\QueryBuilder($tableName);
-            $repo      = new \ksfraser\PaymentDestinations\Repository\PaymentDestinationRepository($qb, $tableName);
+            $tbPref = defined('TB_PREF') ? str_replace('&TB_PREF&', '0_', TB_PREF) : '0_';
+            $tableName = $tbPref . 'ksf_payment_destinations';
+            $repo = new \ksfraser\PaymentDestinations\Repository\PaymentDestinationRepository($tableName, $tbPref);
             $service   = new \ksfraser\PaymentDestinations\Service\PaymentDestinationService($repo);
 
             $bankAccount = $service->getBankAccountFromTerm($term);
