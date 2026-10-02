@@ -12,8 +12,17 @@
         "phpunit/phpunit": "^7.5 || ^8.5",
         "ksfraser/exceptions": "*"
     },
-    "autoload": {"psr-4":{"ksfraser\\PaymentDestinations\\":"src/","ksfraser\\FrontAccounting\\PaymentDestinations\\":"src/"}},
-    "autoload-dev": {"psr-4":{"Tests\\":"Tests/"}},
+    "autoload": {
+        "psr-4": {
+            "ksfraser\\PaymentDestinations\\": "src/",
+            "ksfraser\\FrontAccounting\\PaymentDestinations\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "Tests/"
+        }
+    },
     "scripts": {
         "lint": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
         "test": [
@@ -21,6 +30,11 @@
             "vendor/bin/phpunit"
         ]
     },
-    "minimum-stability":"dev",
-    "prefer-stable":true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        }
+    }
 }

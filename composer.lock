@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d518a3f5a444c0a0cc59a12ddd3bead7",
+    "content-hash": "7c1ff5465b1ecde08bd57c81525e541e",
     "packages": [
         {
             "name": "ksfraser/ksf-common-db",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ksfraser/ksf_common_db.git",
-                "reference": "a206c556b94880a52d6a24e7b29bcd9ac8888aef"
+                "reference": "14865577c828341d32c9a2b1d3caf14d40279519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ksfraser/ksf_common_db/zipball/a206c556b94880a52d6a24e7b29bcd9ac8888aef",
-                "reference": "a206c556b94880a52d6a24e7b29bcd9ac8888aef",
+                "url": "https://api.github.com/repos/ksfraser/ksf_common_db/zipball/14865577c828341d32c9a2b1d3caf14d40279519",
+                "reference": "14865577c828341d32c9a2b1d3caf14d40279519",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "php": ">=7.4"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
@@ -40,9 +40,9 @@
             "description": "Generic, transport-agnostic data dictionary + SQL query builder with a MySQL/PDO adapter (standalone) and a FrontAccounting db_* adapter. DAOs/repositories code once against DbConnectionInterface; DI picks the runtime adapter.",
             "support": {
                 "issues": "https://github.com/ksfraser/ksf_common_db/issues",
-                "source": "https://github.com/ksfraser/ksf_common_db/tree/v1.0.0"
+                "source": "https://github.com/ksfraser/ksf_common_db/tree/v1.0.1"
             },
-            "time": "2026-09-01T04:29:46+00:00"
+            "time": "2026-09-21T00:20:59+00:00"
         },
         {
             "name": "ksfraser/traits",
@@ -250,20 +250,20 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.14.0",
+            "version": "1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae"
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae",
-                "reference": "8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0"
+                "php": "^7.1 || ^8.0"
             },
             "conflict": {
                 "doctrine/collections": "<1.6.8",
@@ -298,15 +298,15 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.14.0"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
             },
             "funding": [
                 {
-                    "url": "https://github.com/mnapoli",
-                    "type": "github"
+                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2026-08-11T10:17:44+00:00"
+            "time": "2025-08-01T08:46:24+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -724,16 +724,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.54",
+            "version": "8.5.55",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "416a546dfbf773a98501bc97791e00c88b89668b"
+                "reference": "a3d14fcedb7f5adcabebff53fa4e012fc1f43061"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/416a546dfbf773a98501bc97791e00c88b89668b",
-                "reference": "416a546dfbf773a98501bc97791e00c88b89668b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a3d14fcedb7f5adcabebff53fa4e012fc1f43061",
+                "reference": "a3d14fcedb7f5adcabebff53fa4e012fc1f43061",
                 "shasum": ""
             },
             "require": {
@@ -802,7 +802,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.54"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.55"
             },
             "funding": [
                 {
@@ -810,7 +810,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-08-11T06:06:51+00:00"
+            "time": "2026-09-23T09:57:55+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1648,5 +1648,8 @@
         "php": ">=7.3"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.4.33"
+    },
     "plugin-api-version": "2.3.0"
 }
