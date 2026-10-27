@@ -86,10 +86,10 @@ class hooks_ksf_payment_destinations extends hooks {
         $path = $path_to_root . '/modules/' . $module_dir . '/controller.php';
         switch($app->id) {
             case 'GL':
-                $app->add_rapp_function(2, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
+                $app->add_lapp_function(0, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
             case 'orders':
-                $app->add_lapp_function(0, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
+                $app->add_rapp_function(0, _('ksf_payment_destinations'), $path, 'SA_ksf_payment_destinations');
                 break;
         }
     }
